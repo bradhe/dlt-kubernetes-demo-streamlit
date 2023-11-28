@@ -1,9 +1,13 @@
+import os
 import time
 import duckdb
 import pandas as pd
 import streamlit as st
 
-con = duckdb.connect(database='kubernetes.duckdb', read_only=True)
+MOTHERDUCK_TOKEN = os.getenv('MOTHERDOCK_TOKEN')
+
+con = duckdb.connect('md:?motherduck_token={}'.format(MOTHERDUCK_TOKEN), read_only=True)
+
 st.set_page_config(layout="wide")
 st.title('Kubernetes monitor')
 
@@ -15,7 +19,7 @@ SELECT
     name,
     status,
     namespace
-FROM kubernetes_data.kubernetes_resource
+FROM kubernetes_data.kubernetes_data.kubernetes_resource
     """
 
     return con.execute(stmt).df()

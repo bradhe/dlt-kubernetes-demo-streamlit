@@ -1,0 +1,2 @@
+streamlit
+duckdb>=0.8.1
